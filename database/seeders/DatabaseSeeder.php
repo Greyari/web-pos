@@ -2,24 +2,69 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Customer;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create Users
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin'
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::create([
+            'name' => 'Owner User',
+            'email' => 'owner@example.com',
+            'password' => Hash::make('owner123'),
+            'role' => 'owner'
+        ]);
+
+        // Create Sample Products
+        Product::create([
+            'name' => 'Intel Core i7-13700K',
+            'category' => 'Processor',
+            'price' => 5500000,
+            'stock' => 15,
+            'description' => 'Processor Intel Gen 13'
+        ]);
+
+        Product::create([
+            'name' => 'NVIDIA RTX 4070',
+            'category' => 'VGA Card',
+            'price' => 9500000,
+            'stock' => 8,
+            'description' => 'VGA Card NVIDIA RTX 4070'
+        ]);
+
+        Product::create([
+            'name' => 'Corsair Vengeance 32GB DDR5',
+            'category' => 'RAM',
+            'price' => 2500000,
+            'stock' => 20,
+            'description' => 'RAM DDR5 32GB'
+        ]);
+
+        // Create Sample Customers
+        Customer::create([
+            'name' => 'Budi Santoso',
+            'email' => 'budi@email.com',
+            'phone' => '081234567890',
+            'address' => 'Jakarta Selatan'
+        ]);
+
+        Customer::create([
+            'name' => 'Siti Rahayu',
+            'email' => 'siti@email.com',
+            'phone' => '081234567891',
+            'address' => 'Bandung'
         ]);
     }
 }
