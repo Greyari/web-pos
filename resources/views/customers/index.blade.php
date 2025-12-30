@@ -10,7 +10,7 @@
             <i class="fas fa-plus mr-2"></i>Tambah Customer
         </a>
     </div>
-    
+
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <table class="w-full">
             <thead class="bg-gray-100">
@@ -48,7 +48,7 @@
             </tbody>
         </table>
     </div>
-    
+
     <div class="mt-4">
         {{ $customers->links() }}
     </div>

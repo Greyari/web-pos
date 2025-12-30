@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - Sistem Toko Komputer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
@@ -38,6 +38,12 @@
                 </a>
 
                 @if(auth()->user()->role === 'owner')
+
+                <a href="{{ route('report') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('report') ? 'bg-blue-800' : '' }}">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    Laporan
+                </a>
+
                 <a href="{{ route('report') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('report') ? 'bg-blue-800' : '' }}">
                     <i class="fas fa-chart-bar mr-3"></i>
                     Laporan
