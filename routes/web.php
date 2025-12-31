@@ -5,8 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PcBuilderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -61,9 +63,23 @@ Route::middleware('auth')->group(function () {
     */
     Route::prefix('customers')->name('customers.')->group(function () {
         Route::get('/', [CustomerController::class, 'index'])->name('index');
-        Route::post('/', [CustomerController::class, 'store'])->name('create');
+        Route::get('/create', [CustomerController::class, 'create'])->name('create');
+        Route::post('/', [CustomerController::class, 'store'])->name('store');
+        Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
         Route::put('/{customer}', [CustomerController::class, 'update'])->name('edit');
         Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | User
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::post('/', [UserController::class, 'store'])->name('create');
+        Route::put('/{user}', [UserController::class, 'update'])->name('edit');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
     });
 
     /*

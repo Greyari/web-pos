@@ -39,9 +39,9 @@
 
                 @if(auth()->user()->role === 'owner')
 
-                <a href="{{ route('report') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('report') ? 'bg-blue-800' : '' }}">
+                <a href="{{ route('users.index') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('user') ? 'bg-blue-800' : '' }}">
                     <i class="fas fa-chart-bar mr-3"></i>
-                    Laporan
+                    User
                 </a>
 
                 <a href="{{ route('report') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('report') ? 'bg-blue-800' : '' }}">
