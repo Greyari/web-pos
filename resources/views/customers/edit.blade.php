@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Customer')
+@section('title', 'Edit Customer')
 
 @section('content')
 <div class="p-6">
-    <h1 class="text-3xl font-bold mb-6">Tambah Customer</h1>
+    <h1 class="text-3xl font-bold mb-6">Edit Customer</h1>
 
     <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
-        <form action="{{ route('customers.store') }}" method="PUT">
+        <form action="{{ route('customers.update', $customer) }}" method="POST">
             @csrf
-
+            @method('PUT')
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Nama Customer</label>
                 <input
                     type="text"
                     name="name"
-                    value="{{ old('name') }}"
+                    value="{{ old('name', $customer->name) }}"
                     class="w-full px-4 py-2 border rounded-lg @error('name') border-red-500 @enderror"
                     required
                 >
@@ -29,7 +29,7 @@
                 <input
                     type="email"
                     name="email"
-                    value="{{ old('email') }}"
+                    value="{{ old('email', $customer->email) }}"
                     class="w-full px-4 py-2 border rounded-lg @error('email') border-red-500 @enderror"
                     required
                 >
@@ -43,7 +43,7 @@
                 <input
                     type="tel"
                     name="phone"
-                    value="{{ old('phone') }}"
+                    value="{{ old('phone', $customer->phone) }}"
                     class="w-full px-4 py-2 border rounded-lg @error('phone') border-red-500 @enderror"
                     required
                 >
@@ -54,12 +54,13 @@
 
             <div class="mb-6">
                 <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
-                <textarea
+                <input
                     name="address"
                     rows="4"
+                    value="{{ old('phone', $customer->address) }}"
                     class="w-full px-4 py-2 border rounded-lg @error('address') border-red-500 @enderror"
                     required
-                >{{ old('address') }}</textarea>
+                >
                 @error('address')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror

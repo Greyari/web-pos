@@ -4,18 +4,18 @@
 
 @section('content')
 <div class="p-6">
-    <h1 class="text-3xl font-bold mb-6">Tambah Produk</h1>
+    <h1 class="text-3xl font-bold mb-6">Edit Produk</h1>
 
     <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
-        <form action="{{ route('products.store') }}" method="PUT">
+        <form action="{{ route('products.update', $product) }}" method="POST">
             @csrf
-
+            @method('PUT')
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Nama Produk</label>
                 <input
                     type="text"
                     name="name"
-                    value="{{ old('name') }}"
+                    value="{{ old('name', $product->name) }}"
                     class="w-full px-4 py-2 border rounded-lg @error('name') border-red-500 @enderror"
                     required
                 >
@@ -28,13 +28,13 @@
                 <label class="block text-gray-700 font-semibold mb-2">Kategori</label>
                 <select name="category" class="w-full px-4 py-2 border rounded-lg @error('category') border-red-500 @enderror" required>
                     <option value="">Pilih Kategori</option>
-                    <option value="Processor">Processor</option>
-                    <option value="VGA Card">VGA Card</option>
-                    <option value="RAM">RAM</option>
-                    <option value="Storage">Storage</option>
-                    <option value="Motherboard">Motherboard</option>
-                    <option value="Power Supply">Power Supply</option>
-                    <option value="Casing">Casing</option>
+                    <option value="Processor" @selected(old('category', $product->category) === 'Processor')>Processor</option>
+                    <option value="VGA Card" @selected(old('category', $product->category) === 'VGA Card')>VGA Card</option>
+                    <option value="RAM" @selected(old('category', $product->category) === 'RAM')>RAM</option>
+                    <option value="Storage" @selected(old('category', $product->category) === 'Storage')>Storage</option>
+                    <option value="Motherboard" @selected(old('category', $product->category) === 'Motherboard')>Motherboard</option>
+                    <option value="Power Supply" @selected(old('category', $product->category) === 'Power Supply')>Power Supply</option>
+                    <option value="Casing" @selected(old('category', $product->category) === 'Casing')>Casing</option>
                 </select>
                 @error('category')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -46,7 +46,7 @@
                 <input
                     type="number"
                     name="price"
-                    value="{{ old('price') }}"
+                    value="{{ old('price', $product->price) }}"
                     class="w-full px-4 py-2 border rounded-lg @error('price') border-red-500 @enderror"
                     required
                 >
@@ -60,7 +60,7 @@
                 <input
                     type="number"
                     name="stock"
-                    value="{{ old('stock') }}"
+                    value="{{ old('stock', $product->stock) }}"
                     class="w-full px-4 py-2 border rounded-lg @error('stock') border-red-500 @enderror"
                     required
                 >
@@ -75,7 +75,7 @@
                     name="description"
                     rows="4"
                     class="w-full px-4 py-2 border rounded-lg"
-                >{{ old('description') }}</textarea>
+                >{{ old('description', $product->description) }}</textarea>
             </div>
 
             <div class="flex gap-2">

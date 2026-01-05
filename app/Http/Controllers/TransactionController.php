@@ -9,13 +9,43 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transaction::with(['customer', 'product'])
-            ->latest()
-            ->paginate(10);
+        $query = Transaction::with(['customer', 'product']);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+
+                // search customer
+                $q->whereHas('customer', function ($qc) use ($search) {
+                    $qc->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('address', 'like', "%{$search}%");
+                })
+
+                // search product
+                ->orWhereHas('product', function ($qp) use ($search) {
+                    $qp->where('name', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%");
+                })
+
+                // search transaksi sendiri
+                ->orWhere('type', 'like', "%{$search}%")
+                ->orWhere('status', 'like', "%{$search}%")
+                ->orWhere('transaction_date', 'like', "%{$search}%");
+            });
+        }
+
+        $transactions = $query->latest()
+            ->paginate(10)
+            ->withQueryString();
+
         return view('transactions.index', compact('transactions'));
     }
+
 
     public function create()
     {
@@ -63,7 +93,7 @@ class TransactionController extends Controller
         $transactions = Transaction::with(['customer', 'product'])->get();
         $totalRevenue = $transactions->sum('total_price');
 
-        return view('transactions.report', compact('transactions', 'totalRevenue'));
+        return view('laporan.index', compact('transactions', 'totalRevenue'));
     }
 
     public function downloadReport()

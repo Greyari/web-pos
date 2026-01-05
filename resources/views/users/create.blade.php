@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Pengguna')
+@section('title', 'Tambah Pengguna')
 
 @section('content')
 <div class="p-6">
@@ -63,7 +63,7 @@
                 <button type="submit" class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
                     Simpan
                 </button>
-                <a href="{{ route('user.index') }}" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 text-center">
+                <a href="{{ route('users.index') }}" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 text-center">
                     Batal
                 </a>
             </div>

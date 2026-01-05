@@ -14,7 +14,6 @@ return new class extends Migration
             $table->enum('category', ['Processor', 'VGA Card', 'RAM', 'Storage', 'Motherboard', 'Power Supply', 'Casing']);
             $table->decimal('price', 15, 2);
             $table->integer('stock');
-            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

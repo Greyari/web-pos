@@ -11,6 +11,23 @@
         </a>
     </div>
 
+    <div class="mb-4">
+        <form action="{{ route('transactions.index') }}" method="GET">
+            <div class="flex gap-2">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Cari transactions..."
+                    class="flex-1 px-4 py-2 border rounded-lg"
+                >
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <table class="w-full">
             <thead class="bg-gray-100">

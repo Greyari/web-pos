@@ -38,21 +38,25 @@
                 </a>
 
                 @if(auth()->user()->role === 'owner')
+                    <a href="{{ route('supplier.index') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('supplier.*') ? 'bg-blue-800' : '' }}">
+                        <i class="fas fa-chart-bar mr-3"></i>
+                        Supplier
+                    </a>
 
-                <a href="{{ route('users.index') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('user') ? 'bg-blue-800' : '' }}">
-                    <i class="fas fa-chart-bar mr-3"></i>
-                    User
-                </a>
+                    <a href="{{ route('users.index') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('user.*') ? 'bg-blue-800' : '' }}">
+                        <i class="fas fa-chart-bar mr-3"></i>
+                        User
+                    </a>
 
-                <a href="{{ route('report') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('report') ? 'bg-blue-800' : '' }}">
-                    <i class="fas fa-chart-bar mr-3"></i>
-                    Laporan
-                </a>
+                    <a href="{{ route('report') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('report') ? 'bg-blue-800' : '' }}">
+                        <i class="fas fa-chart-bar mr-3"></i>
+                        Laporan
+                    </a>
 
-                <a href="{{ route('pc-builder') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('pc-builder') ? 'bg-blue-800' : '' }}">
-                    <i class="fas fa-desktop mr-3"></i>
-                    Simulasi PC
-                </a>
+                    <a href="{{ route('pc-builder') }}" class="flex items-center px-4 py-3 hover:bg-blue-800 {{ request()->routeIs('pc-builder') ? 'bg-blue-800' : '' }}">
+                        <i class="fas fa-desktop mr-3"></i>
+                        Simulasi PC
+                    </a>
                 @endif
 
                 <form action="{{ route('logout') }}" method="POST" class="mt-6">

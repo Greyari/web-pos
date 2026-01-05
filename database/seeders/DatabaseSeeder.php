@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
             'category' => 'Processor',
             'price' => 5500000,
             'stock' => 15,
-            'description' => 'Processor Intel Gen 13'
         ]);
 
         Product::create([
@@ -41,7 +40,6 @@ class DatabaseSeeder extends Seeder
             'category' => 'VGA Card',
             'price' => 9500000,
             'stock' => 8,
-            'description' => 'VGA Card NVIDIA RTX 4070'
         ]);
 
         Product::create([
@@ -49,7 +47,6 @@ class DatabaseSeeder extends Seeder
             'category' => 'RAM',
             'price' => 2500000,
             'stock' => 20,
-            'description' => 'RAM DDR5 32GB'
         ]);
 
         // Create Sample Customers

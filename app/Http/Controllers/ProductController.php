@@ -11,12 +11,17 @@ class ProductController extends Controller
     {
         $query = Product::query();
 
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('category', 'like', '%' . $request->search . '%');
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%")
+                  ->orWhere('price', 'like', "%{$search}%");
+            });
         }
 
-        $products = $query->paginate(10);
+        $products = $query->paginate(10)->withQueryString();
         return view('products.index', compact('products'));
     }
 
