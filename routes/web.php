@@ -83,7 +83,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/{supplier}', [SupplierController::class, 'update'])->name('update');
         Route::delete('/{supplier}', [SupplierController::class, 'destroy'])->name('destroy');
     });
-
+Route::get('/api/products/{product}/suppliers', [TransactionController::class, 'getSuppliersByProduct'])
+    ->name('products.suppliers');
     /*
     |--------------------------------------------------------------------------
     | User

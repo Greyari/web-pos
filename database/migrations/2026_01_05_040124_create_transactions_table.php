@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null');
             $table->integer('quantity');
             $table->decimal('total_price', 15, 2);
             $table->enum('type', ['Invoice', 'Quotation', 'DO']);

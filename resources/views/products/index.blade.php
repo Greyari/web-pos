@@ -34,38 +34,83 @@
                 <tr>
                     <th class="px-4 py-3 text-left">Nama Produk</th>
                     <th class="px-4 py-3 text-left">Kategori</th>
-                    <th class="px-4 py-3 text-left">Harga</th>
-                    <th class="px-4 py-3 text-left">Stok</th>
+                    <th class="px-4 py-3 text-left">Suppliers</th>
+                    <th class="px-4 py-3 text-left">Total Stok</th>
+                    <th class="px-4 py-3 text-left">Harga Range</th>
                     <th class="px-4 py-3 text-left">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($products as $product)
+                @forelse($products as $product)
                 <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">{{ $product->name }}</td>
-                    <td class="px-4 py-3">{{ $product->category }}</td>
-                    <td class="px-4 py-3">Rp {{ number_format($product->price) }}</td>
+                    <td class="px-4 py-3 font-medium">{{ $product->name }}</td>
                     <td class="px-4 py-3">
-                        <span class="px-2 py-1 rounded text-sm {{ $product->stock < 10 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
-                            {{ $product->stock }}
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">
+                            {{ $product->category }}
                         </span>
                     </td>
                     <td class="px-4 py-3">
+                        <div class="flex flex-col gap-1">
+                            @foreach($product->suppliers as $supplier)
+                            <div class="text-sm">
+                                <span class="font-medium">{{ $supplier->nama_supplier }}</span>
+                                <span class="text-gray-500">(Stock: {{ $supplier->pivot->stock }})</span>
+                            </div>
+                            @endforeach
+                            @if($product->suppliers->isEmpty())
+                            <span class="text-gray-400 text-sm italic">Belum ada supplier</span>
+                            @endif
+                        </div>
+                    </td>
+                    <td class="px-4 py-3">
+                        @php
+                            $totalStock = $product->suppliers->sum('pivot.stock');
+                        @endphp
+                        <span class="px-3 py-1 rounded font-semibold {{ $totalStock < 10 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
+                            {{ $totalStock }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        @if($product->suppliers->isNotEmpty())
+                            @php
+                                $minPrice = $product->suppliers->min('pivot.harga_jual');
+                                $maxPrice = $product->suppliers->max('pivot.harga_jual');
+                            @endphp
+                            <div class="text-sm">
+                                @if($minPrice == $maxPrice)
+                                    <span class="font-semibold">Rp {{ number_format($minPrice, 0, ',', '.') }}</span>
+                                @else
+                                    <span class="font-semibold">Rp {{ number_format($minPrice, 0, ',', '.') }}</span>
+                                    <span class="text-gray-500">-</span>
+                                    <span class="font-semibold">Rp {{ number_format($maxPrice, 0, ',', '.') }}</span>
+                                @endif
+                            </div>
+                        @else
+                            <span class="text-gray-400 text-sm">-</span>
+                        @endif
+                    </td>
+                    <td class="px-4 py-3">
                         <div class="flex gap-2">
-                            <a href="{{ route('products.edit', $product) }}" class="text-blue-600 hover:text-blue-800">
+                            <a href="{{ route('products.edit', $product) }}" class="text-blue-600 hover:text-blue-800" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('products.destroy', $product) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                            <form action="{{ route('products.destroy', $product) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini beserta semua data supplier?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800">
+                                <button type="submit" class="text-red-600 hover:text-red-800" title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
                         </div>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="6" class="px-4 py-8 text-center text-gray-500">
+                        Tidak ada produk ditemukan
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

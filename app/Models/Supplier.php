@@ -11,4 +11,10 @@ class Supplier extends Model
         'alamat'
     ];
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)
+            ->withPivot('stock', 'harga_beli', 'harga_jual')
+            ->withTimestamps();
+    }
 }

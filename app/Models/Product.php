@@ -9,8 +9,6 @@ class Product extends Model
     protected $fillable = [
         'name',
         'category',
-        'price',
-        'stock',
     ];
 
     public function transactions()
@@ -20,6 +18,14 @@ class Product extends Model
 
     public function suppliers()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsToMany(Supplier::class, 'product_supplier')
+            ->withPivot('id', 'stock', 'harga_beli', 'harga_jual')
+            ->withTimestamps();
+    }
+
+    // Helper untuk hitung total stock dari semua supplier
+    public function getTotalStockAttribute()
+    {
+        return $this->suppliers()->sum('product_supplier.stock');
     }
 }
