@@ -126,7 +126,7 @@
             <div class="bg-white rounded-lg shadow p-6 sticky top-6">
                 <h2 class="text-2xl font-bold mb-4">Ringkasan Build</h2>
 
-                <div id="build-summary" class="space-y-2 mb-4 min-h-[200px]">
+                <div id="build-summary" class="space-y-2 mb-4 min-h-50">
                     <p class="text-gray-500 italic">Pilih komponen untuk memulai</p>
                 </div>
 

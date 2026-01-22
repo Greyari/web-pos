@@ -1,182 +1,145 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistem Toko Komputer</title>
+    <title>Login</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .animated-gradient {
-            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-    </style>
 </head>
-<body class="animated-gradient min-h-screen flex items-center justify-center p-4">
 
-    <!-- Back Button -->
-    <a href="/" class="absolute top-6 left-6 text-white flex items-center gap-2 hover:gap-3 transition-all">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-        </svg>
-        <span class="font-semibold">Kembali</span>
-    </a>
+<body class="h-screen overflow-hidden">
 
-    <div class="w-full max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+    <div class="flex flex-col md:flex-row h-full">
 
-        <!-- Left Side - Branding -->
-        <div class="hidden md:block text-white fade-in">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-                    <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                </div>
-                <span class="text-2xl font-bold">TechStore System</span>
+        <!-- LEFT SIDE -->
+        <div class="hidden md:flex md:w-1/2 flex-col justify-between p-6 lg:p-5 bg-sky-600">
+            <div class="p-3 ml-3 ">
+                <h1 class="text-white text-4xl font-bold italic">NATOPC</h1>
             </div>
 
-            <h2 class="text-4xl font-bold mb-6 leading-tight">
-                Selamat Datang Kembali! 👋
-            </h2>
-            <p class="text-xl text-white text-opacity-90 mb-8">
-                Masuk ke dashboard Anda dan kelola bisnis toko komputer dengan mudah dan efisien.
-            </p>
 
-            <div class="space-y-4">
-                <div class="flex items-center gap-3 bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-4">
-                    <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </div>
-                    <span class="font-semibold">Dashboard Real-time</span>
-                </div>
-                <div class="flex items-center gap-3 bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-4">
-                    <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </div>
-                    <span class="font-semibold">Laporan Lengkap</span>
-                </div>
-                <div class="flex items-center gap-3 bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-4">
-                    <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </div>
-                    <span class="font-semibold">Keamanan Terjamin</span>
-                </div>
-            </div>
+
+
         </div>
 
-        <!-- Right Side - Login Form -->
-        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 fade-in">
+        <!-- RIGHT SIDE -->
+        <div class="flex w-full md:w-1/2 items-center justify-center p-6 lg:p-10">
+            <div class="w-full max-w-md">
 
-            <!-- Mobile Logo -->
-            <div class="md:hidden flex items-center justify-center gap-3 mb-8">
-                <div class="w-12 h-12 bg-linear-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-800 text-center mb-8 font-poppins">
+                    Login
+                </h1>
+
+                <!-- ERROR -->
+                @if ($errors->has('email'))
+                <div class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                    {{ $errors->first('email') }}
                 </div>
-                <span class="text-2xl font-bold text-gray-800">TechStore</span>
-            </div>
+                @endif
 
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Login ke Dashboard</h1>
-                <p class="text-gray-600">Masukkan kredensial Anda untuk melanjutkan</p>
-            </div>
+                <form method="POST" action="{{ url('auth/login') }}" class="space-y-5">
+                    @csrf
 
-            @if($errors->any())
-            <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6 flex items-start gap-3">
-                <svg class="w-5 h-5 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                </svg>
-                <span>{{ $errors->first() }}</span>
-            </div>
-            @endif
-
-            <form action="{{ route('login') }}" method="POST" class="space-y-6">
-                @csrf
-
-                <!-- Email Input -->
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
-                            </svg>
-                        </div>
+                    <!-- EMAIL -->
+                    <div>
+                        <label class="block mb-1 text-sm font-medium text-gray-700 font-poppins">
+                            Email
+                        </label>
                         <input
                             type="email"
                             name="email"
                             value="{{ old('email') }}"
-                            class="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition outline-none"
-                            placeholder="nama@email.com"
                             required
-                        >
+                            autofocus
+                            placeholder="Masukkan email"
+                            class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-gray-400">
                     </div>
-                </div>
 
-                <!-- Password Input -->
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                    <!-- PASSWORD -->
                     <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                            </svg>
-                        </div>
+                        <label class="block mb-1 text-sm font-medium text-gray-700 font-poppins">
+                            Password
+                        </label>
+
                         <input
                             type="password"
                             name="password"
-                            class="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition outline-none"
-                            placeholder="••••••••"
+                            id="password"
                             required
-                        >
+                            placeholder="Masukkan password"
+                            class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-3 pr-11 text-sm text-gray-700 focus:outline-none focus:border-gray-400">
+
+                        <!-- EYE TOGGLE -->
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="absolute right-3 top-9.5 text-gray-400 hover:text-gray-600 transition">
+                            <!-- EYE CLOSED -->
+                            <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5"
+                                fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.98 8.223A10.477 10.477 0 001.934 12
+                                C3.226 16.338 7.244 19.5 12 19.5
+                                c.993 0 1.953-.138 2.863-.395
+                                M6.228 6.228A10.45 10.45 0 0112 4.5
+                                c4.756 0 8.773 3.162 10.065 7.498
+                                a10.523 10.523 0 01-4.293 5.774
+                                M6.228 6.228L3 3m3.228 3.228
+                                l3.65 3.65m7.894 7.894L21 21
+                                m-3.228-3.228l-3.65-3.65
+                                m0 0a3 3 0 10-4.243-4.243
+                                m4.242 4.242L9.88 9.88" />
+                            </svg>
+
+                            <!-- EYE OPEN -->
+                            <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5 hidden"
+                                fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 010-.639
+                                C3.423 7.51 7.36 4.5 12 4.5
+                                c4.638 0 8.573 3.007 9.963 7.178
+                                .07.207.07.431 0 .639
+                                C20.577 16.49 16.64 19.5 12 19.5
+                                c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
                     </div>
-                </div>
 
-                <!-- Remember Me & Forgot Password -->
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" class="w-4 h-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
-                        <span class="text-sm text-gray-600">Ingat saya</span>
-                    </label>
-                    <a href="#" class="text-sm font-semibold text-purple-600 hover:text-purple-700">Lupa password?</a>
-                </div>
+                    <!-- SUBMIT -->
+                    <button
+                        type="submit"
+                        class="w-full rounded-lg bg-sky-600 py-3 text-sm font-medium text-white hover:bg-sky-700 transition font-poppins">
+                        Login
+                    </button>
+                </form>
 
-                <!-- Submit Button -->
-                <button
-                    type="submit"
-                    class="w-full bg-linear-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-[1.02] transition transform"
-                >
-                    Masuk ke Dashboard
-                </button>
-            </form>
-            
-            <!-- Footer Text -->
-            <p class="text-center text-sm text-gray-500 mt-8">
-                Belum punya akun? <a href="#" class="font-semibold text-purple-600 hover:text-purple-700">Daftar sekarang</a>
-            </p>
+            </div>
         </div>
 
     </div>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const eyeOpen = document.getElementById('eyeOpen');
+        const eyeClosed = document.getElementById('eyeClosed');
+
+        togglePassword.addEventListener('click', () => {
+            const isHidden = passwordInput.type === 'password';
+
+            passwordInput.type = isHidden ? 'text' : 'password';
+            eyeOpen.classList.toggle('hidden', !isHidden);
+            eyeClosed.classList.toggle('hidden', isHidden);
+        });
+    </script>
 
 </body>
+
 </html>

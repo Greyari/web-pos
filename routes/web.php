@@ -15,7 +15,8 @@ use App\Http\Controllers\SupplierController;
 | Public Routes
 |--------------------------------------------------------------------------
 */
-Route::view('/', 'landing-page.index')->name('landing');
+
+Route::redirect('/', '/auth/login');
 
 /*
 |--------------------------------------------------------------------------
@@ -83,8 +84,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/{supplier}', [SupplierController::class, 'update'])->name('update');
         Route::delete('/{supplier}', [SupplierController::class, 'destroy'])->name('destroy');
     });
-Route::get('/api/products/{product}/suppliers', [TransactionController::class, 'getSuppliersByProduct'])
-    ->name('products.suppliers');
+    Route::get('/api/products/{product}/suppliers', [TransactionController::class, 'getSuppliersByProduct'])
+        ->name('products.suppliers');
     /*
     |--------------------------------------------------------------------------
     | User
