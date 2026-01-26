@@ -4,33 +4,32 @@
 
 @section('content')
 <div class="p-6">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Manajemen Pengguna</h1>
-        <a href="{{ route('users.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            <i class="fas fa-plus mr-2"></i>Tambah Pengguna
+    <div class="flex justify-between items-center mb-2">
+        <h1 class="text-2xl font-semibold mb-6 tracking-tight">Manajemen Pengguna</h1>
+        <a href="{{ route('users.create') }}" class="bg-blue-950 text-white px-4 py-2 rounded-lg hover:bg-blue-900">
+            <i class="fas fa-plus mr-2"></i>Pengguna
         </a>
     </div>
 
-    <div class="mb-4">
+    <div class="mb-6">
         <form action="{{ route('users.index') }}" method="GET">
             <div class="flex gap-2">
                 <input
                     type="text"
                     name="search"
                     value="{{ request('search') }}"
-                    placeholder="Cari pengguna..."
-                    class="flex-1 px-4 py-2 border rounded-lg"
-                >
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    placeholder="Cari user..."
+                    class="placeholder:text-sm flex-1 px-4 py-2 border border-gray-300 rounded-lg">
+                <button type="submit" class="bg-blue-950 text-white px-6 py-2 rounded-lg hover:bg-blue-900">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </form>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="bg-white rounded-lg border border-gray-200 shadow overflow-hidden">
         <table class="w-full">
-            <thead class="bg-gray-100">
+            <thead class="bg-gray-100 text-gray-800">
                 <tr>
                     <th class="px-4 py-3 text-left">Nama</th>
                     <th class="px-4 py-3 text-left">Email</th>
@@ -40,10 +39,10 @@
             </thead>
             <tbody>
                 @foreach($users as $user)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">{{ $user->name }}</td>
-                    <td class="px-4 py-3">{{ $user->email }}</td>
-                    <td class="px-4 py-3">{{ $user->role }}</td>
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="px-4 py-3  text-gray-600 text-sm">{{ $user->name }}</td>
+                    <td class="px-4 py-3  text-gray-600 text-sm">{{ $user->email }}</td>
+                    <td class="px-4 py-3  text-gray-600 text-sm">{{ $user->role }}</td>
                     <td class="px-4 py-3">
                         <div class="flex gap-2">
                             <a href="{{ route('users.edit', $user) }}" class="text-blue-600 hover:text-blue-800">

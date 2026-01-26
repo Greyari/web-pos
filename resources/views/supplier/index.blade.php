@@ -3,15 +3,15 @@
 @section('title', 'Daftar Supplier')
 
 @section('content')
-<div class="p-6">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Manajemen Supplier</h1>
-        <a href="{{ route('supplier.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            <i class="fas fa-plus mr-2"></i>Tambah Supplier
+<div class="px-5">
+    <div class="flex justify-between items-center mb-2">
+        <h1 class="text-2xl font-semibold mb-6 tracking-tight">Manajemen Supplier</h1>
+        <a href="{{ route('supplier.create') }}" class="bg-blue-950 text-white px-4 py-2 rounded-lg hover:bg-blue-900">
+            <i class="fas fa-plus mr-2"></i>Supplier
         </a>
     </div>
 
-    <div class="mb-4">
+    <div class="mb-6">
         <form action="{{ route('supplier.index') }}" method="GET">
             <div class="flex gap-2">
                 <input
@@ -19,18 +19,17 @@
                     name="search"
                     value="{{ request('search') }}"
                     placeholder="Cari supplier..."
-                    class="flex-1 px-4 py-2 border rounded-lg"
-                >
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    class="placeholder:text-sm flex-1 px-4 py-2 border border-gray-300 rounded-lg">
+                <button type="submit" class="bg-blue-950 text-white px-6 py-2 rounded-lg hover:bg-blue-900">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </form>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="bg-white rounded-lg border border-gray-200 shadow overflow-hidden">
         <table class="w-full">
-            <thead class="bg-gray-100">
+            <thead class="bg-gray-100 text-gray-800">
                 <tr>
                     <th class="px-4 py-3 text-left">Nama Suplier</th>
                     <th class="px-4 py-3 text-left">Alamat</th>
@@ -39,10 +38,10 @@
             </thead>
             <tbody>
                 @foreach($suppliers as $supplier)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">{{ $supplier->nama_supplier }}</td>
-                    <td class="px-4 py-3">{{ $supplier->alamat }}</td>
-                    <td class="px-4 py-3">
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="px-4 py-3 text-gray-600 text-sm">{{ $supplier->nama_supplier }}</td>
+                    <td class="px-4 py-3 text-gray-600 text-sm">{{ $supplier->alamat }}</td>
+                    <td class="px-4 py-3 ">
                         <div class="flex gap-2">
                             <a href="{{ route('supplier.edit', $supplier) }}" class="text-blue-600 hover:text-blue-800">
                                 <i class="fas fa-edit"></i>

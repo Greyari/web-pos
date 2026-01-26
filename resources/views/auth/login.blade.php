@@ -14,15 +14,22 @@
     <div class="flex flex-col md:flex-row h-full">
 
         <!-- LEFT SIDE -->
-        <div class="hidden md:flex md:w-1/2 flex-col justify-between p-6 lg:p-5 bg-sky-600">
-            <div class="p-3 ml-3 ">
-                <h1 class="text-white text-4xl font-bold italic">NATOPC</h1>
+        <div class="hidden md:flex md:w-1/2 flex-col p-6 lg:p-5 bg-blue-950">
+            <div class="flex flex-1 items-center justify-center">
+                <div class="flex flex-col items-center text-center gap-6">
+                    <h1 class="text-white text-4xl font-bold italic">
+                        NATOPC
+                    </h1>
+
+                    <img
+                        src="/assets/main-content.svg"
+                        alt="Main content"
+                        class="w-[350px] h-auto" />
+                </div>
             </div>
-
-
-
-
         </div>
+
+
 
         <!-- RIGHT SIDE -->
         <div class="flex w-full md:w-1/2 items-center justify-center p-6 lg:p-10">
@@ -39,7 +46,7 @@
                 </div>
                 @endif
 
-                <form method="POST" action="{{ url('auth/login') }}" class="space-y-5">
+                <form method="POST" action="{{ url('auth/login') }}" class="space-y-5 px-10">
                     @csrf
 
                     <!-- EMAIL -->
@@ -54,7 +61,7 @@
                             required
                             autofocus
                             placeholder="Masukkan email"
-                            class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-gray-400">
+                            class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-3 text-xs text-gray-700 focus:outline-none focus:border-gray-400">
                     </div>
 
                     <!-- PASSWORD -->
@@ -69,13 +76,13 @@
                             id="password"
                             required
                             placeholder="Masukkan password"
-                            class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-3 pr-11 text-sm text-gray-700 focus:outline-none focus:border-gray-400">
+                            class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-3 pr-11 text-xs text-gray-700 focus:outline-none focus:border-gray-400">
 
                         <!-- EYE TOGGLE -->
                         <button
                             type="button"
                             id="togglePassword"
-                            class="absolute right-3 top-9.5 text-gray-400 hover:text-gray-600 transition">
+                            class="absolute right-3 top-8.5 text-gray-400 hover:text-gray-600 transition">
                             <!-- EYE CLOSED -->
                             <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg"
                                 class="w-5 h-5"
@@ -116,7 +123,7 @@
                     <!-- SUBMIT -->
                     <button
                         type="submit"
-                        class="w-full rounded-lg bg-sky-600 py-3 text-sm font-medium text-white hover:bg-sky-700 transition font-poppins">
+                        class="w-full rounded-lg bg-blue-950 py-3 text-sm font-medium text-white hover:bg-blue-900 transition font-poppins">
                         Login
                     </button>
                 </form>
