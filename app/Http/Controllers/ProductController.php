@@ -16,7 +16,7 @@ class ProductController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('category', 'like', "%{$search}%");
+                    ->orWhere('category', 'like', "%{$search}%");
             });
         }
 
@@ -111,5 +111,10 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('products.index')
             ->with('success', 'Produk berhasil dihapus');
+    }
+
+    public function reportProduct()
+    {
+        return view('laporan-product.index');
     }
 }

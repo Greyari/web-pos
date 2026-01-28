@@ -24,19 +24,19 @@ class TransactionController extends Controller
                         ->orWhere('email', 'like', "%{$search}%")
                         ->orWhere('phone', 'like', "%{$search}%");
                 })
-                // search product
-                ->orWhereHas('product', function ($qp) use ($search) {
-                    $qp->where('name', 'like', "%{$search}%")
-                        ->orWhere('category', 'like', "%{$search}%");
-                })
-                // search supplier
-                ->orWhereHas('supplier', function ($qs) use ($search) {
-                    $qs->where('nama_supplier', 'like', "%{$search}%");
-                })
-                // search transaksi sendiri
-                ->orWhere('type', 'like', "%{$search}%")
-                ->orWhere('status', 'like', "%{$search}%")
-                ->orWhere('transaction_date', 'like', "%{$search}%");
+                    // search product
+                    ->orWhereHas('product', function ($qp) use ($search) {
+                        $qp->where('name', 'like', "%{$search}%")
+                            ->orWhere('category', 'like', "%{$search}%");
+                    })
+                    // search supplier
+                    ->orWhereHas('supplier', function ($qs) use ($search) {
+                        $qs->where('nama_supplier', 'like', "%{$search}%");
+                    })
+                    // search transaksi sendiri
+                    ->orWhere('type', 'like', "%{$search}%")
+                    ->orWhere('status', 'like', "%{$search}%")
+                    ->orWhere('transaction_date', 'like', "%{$search}%");
             });
         }
 
@@ -100,7 +100,6 @@ class TransactionController extends Controller
 
             return redirect()->route('transactions.index')
                 ->with('success', 'Transaksi berhasil ditambahkan');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -123,7 +122,6 @@ class TransactionController extends Controller
 
             return redirect()->route('transactions.index')
                 ->with('success', 'Transaksi berhasil dihapus dan stok dikembalikan');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -135,7 +133,7 @@ class TransactionController extends Controller
         $transactions = Transaction::with(['customer', 'product', 'supplier'])->get();
         $totalRevenue = $transactions->sum('total_price');
 
-        return view('laporan.index', compact('transactions', 'totalRevenue'));
+        return view('laporan-transaksi.index', compact('transactions', 'totalRevenue'));
     }
 
     public function downloadReport()
@@ -168,7 +166,7 @@ class TransactionController extends Controller
     {
         $product = Product::with('suppliers')->findOrFail($productId);
 
-        $suppliers = $product->suppliers->map(function($supplier) {
+        $suppliers = $product->suppliers->map(function ($supplier) {
             return [
                 'id' => $supplier->id,
                 'nama_supplier' => $supplier->nama_supplier,

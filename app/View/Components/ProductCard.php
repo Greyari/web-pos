@@ -11,15 +11,15 @@ class ProductCard extends Component
     public string $name;
     public string $category;
     public string $supplier;
-    public float|int $price;
-    public ?string $image; // Tambahin ini bjir
+    public int|float $price;
+    public ?string $image;
 
     public function __construct(
         string $name,
         string $category,
         string $supplier,
-        float|int $price,
-        ?string $image = null // Tambahin ini juga
+        int|float $price,
+        ?string $image = null
     ) {
         $this->name = $name;
         $this->category = $category;

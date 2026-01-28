@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PcBuilderController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
 
 /*
@@ -120,10 +121,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/report', [TransactionController::class, 'report'])->name('report');
     Route::get('/report/download', [TransactionController::class, 'downloadReport'])->name('report.download');
 
+    Route::get('/report-product', [ProductController::class, 'reportProduct'])
+        ->name('report.product');
+
+
     /*
     |--------------------------------------------------------------------------
     | Tools
     |--------------------------------------------------------------------------
     */
     Route::get('/pc-builder', [PcBuilderController::class, 'index'])->name('pc-builder');
+
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 });

@@ -14,19 +14,25 @@
     <div class="flex flex-col md:flex-row h-full">
 
         <!-- LEFT SIDE -->
-        <div class="hidden md:flex md:w-1/2 flex-col p-6 lg:p-5 bg-blue-950">
-            <div class="flex flex-1 items-center justify-center">
+        <div class="hidden md:flex md:w-1/2 flex-col p-6 lg:p-5 bg-slate-900">
+            <h1 class="text-white text-5xl font-bold italic pt-10 pl-10">
+                NATOPC
+            </h1>
+
+            <div class="flex flex-1 items-center justify-center">|
+
                 <div class="flex flex-col items-center text-center gap-6">
-                    <h1 class="text-white text-4xl font-bold italic">
-                        NATOPC
-                    </h1>
+
 
                     <img
-                        src="/assets/main-content.svg"
+                        src="/assets/hero-illustration.svg"
                         alt="Main content"
-                        class="w-[350px] h-auto" />
+                        class="w-120 h-auto" />
                 </div>
             </div>
+            <p class="text-gray-400 tracking-widest font-extralight mb-7  text-sm pt-2 pl-10">
+                Website internal untuk mengelola inventaris dan transaksi perusahaan.
+            </p>
         </div>
 
 
@@ -123,7 +129,7 @@
                     <!-- SUBMIT -->
                     <button
                         type="submit"
-                        class="w-full rounded-lg bg-blue-950 py-3 text-sm font-medium text-white hover:bg-blue-900 transition font-poppins">
+                        class="w-full rounded-lg bg-slate-900 py-3 text-sm font-medium text-white hover:bg-slate-800 transition font-poppins">
                         Login
                     </button>
                 </form>

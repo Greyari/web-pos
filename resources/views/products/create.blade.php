@@ -3,303 +3,255 @@
 @section('title', 'Tambah Produk')
 
 @section('content')
-<div class="p-6">
-    <h1 class="text-3xl font-bold mb-6">Tambah Produk</h1>
+<div class="px-5">
 
-    <div class="bg-white rounded-lg shadow p-6 max-w-4xl">
-        <form action="{{ route('products.store') }}" method="POST">
-            @csrf
+    {{-- HEADER --}}
+    <div class="mb-6">
+        <h1 class="text-2xl font-semibold tracking-tight text-slate-800">
+            Tambah Produk
+        </h1>
+        <p class="text-sm text-slate-500">
+            Kelola data produk, supplier, dan harga jual
+        </p>
+    </div>
 
-            <!-- Informasi Produk -->
-            <div class="mb-6">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Informasi Produk</h2>
+    <div class="mb-8">
+        <div class="w-full max-w-4xl bg-white rounded-2xl shadow-sm p-6">
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Nama Produk</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value="{{ old('name') }}"
-                        class="w-full px-4 py-2 border rounded-lg @error('name') border-red-500 @enderror"
-                        required
-                    >
-                    @error('name')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+            <form action="{{ route('products.store') }}" method="POST">
+                @csrf
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Kategori</label>
-                    <select name="category" class="w-full px-4 py-2 border rounded-lg @error('category') border-red-500 @enderror" required>
-                        <option value="">Pilih Kategori</option>
-                        <option value="Processor" {{ old('category') == 'Processor' ? 'selected' : '' }}>Processor</option>
-                        <option value="VGA Card" {{ old('category') == 'VGA Card' ? 'selected' : '' }}>VGA Card</option>
-                        <option value="RAM" {{ old('category') == 'RAM' ? 'selected' : '' }}>RAM</option>
-                        <option value="Storage" {{ old('category') == 'Storage' ? 'selected' : '' }}>Storage</option>
-                        <option value="Motherboard" {{ old('category') == 'Motherboard' ? 'selected' : '' }}>Motherboard</option>
-                        <option value="Power Supply" {{ old('category') == 'Power Supply' ? 'selected' : '' }}>Power Supply</option>
-                        <option value="Casing" {{ old('category') == 'Casing' ? 'selected' : '' }}>Casing</option>
-                    </select>
-                    @error('category')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                {{-- INFORMASI PRODUK --}}
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">
+                        Informasi Produk
+                    </h2>
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
-                    <textarea
-                        name="description"
-                        rows="3"
-                        class="w-full px-4 py-2 border rounded-lg"
-                    >{{ old('description') }}</textarea>
-                </div>
-            </div>
-
-            <!-- Supplier & Pricing -->
-            <div class="mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800">Supplier & Harga</h2>
-                    <button
-                        type="button"
-                        onclick="addSupplier()"
-                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm"
-                    >
-                        + Tambah Supplier
-                    </button>
-                </div>
-
-                @error('suppliers')
-                <p class="text-red-500 text-sm mb-3">{{ $message }}</p>
-                @enderror
-
-                <div id="suppliers-container">
-                    <!-- Supplier Row Default -->
-                    <div class="supplier-row border rounded-lg p-4 mb-4 bg-gray-50" data-index="0">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-semibold text-gray-700">Supplier #1</h3>
-                            <button
-                                type="button"
-                                onclick="removeSupplier(0)"
-                                class="text-red-600 hover:text-red-800 text-sm hidden remove-btn"
-                            >
-                                Hapus
-                            </button>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">
+                                Nama Produk
+                            </label>
+                            <input type="text" name="name" value="{{ old('name') }}"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm
+                                focus:ring-2 focus:ring-slate-900/10"
+                                required>
+                            @error('name')
+                            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="md:col-span-2">
-                                <label class="block text-gray-700 font-semibold mb-2">Nama Supplier</label>
-                                <select
-                                    name="suppliers[0][supplier_id]"
-                                    class="w-full px-4 py-2 border rounded-lg @error('suppliers.0.supplier_id') border-red-500 @enderror"
-                                    required
-                                >
-                                    <option value="">Pilih Supplier</option>
-                                    @foreach($suppliers as $supplier)
-                                        <option value="{{ $supplier->id }}" {{ old('suppliers.0.supplier_id') == $supplier->id ? 'selected' : '' }}>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">
+                                Kategori
+                            </label>
+                            <select name="category"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
+                                required>
+                                <option value="">Pilih Kategori</option>
+                                @foreach(['Processor','VGA Card','RAM','Storage','Motherboard','Power Supply','Casing'] as $cat)
+                                <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>
+                                    {{ $cat }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-600 mb-1">
+                                Deskripsi
+                            </label>
+                            <textarea name="description" rows="3"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">{{ old('description') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- SUPPLIER & HARGA --}}
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-slate-800">
+                            Supplier & Harga
+                        </h2>
+                        <button type="button" onclick="addSupplier()"
+                            class="px-4 py-2.5 bg-slate-900 text-white text-sm rounded-xl hover:bg-slate-800">
+                            + Tambah Supplier
+                        </button>
+                    </div>
+
+                    <div id="suppliers-container" class="space-y-4">
+                        <div class="supplier-row bg-slate-50 border border-slate-200 rounded-2xl p-5" data-index="0">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold text-slate-700">Supplier #1</h3>
+                                <button type="button" onclick="removeSupplier(0)"
+                                    class="text-sm text-red-600 hover:text-red-700 remove-btn hidden">
+                                    Hapus
+                                </button>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-slate-600 mb-1">
+                                        Nama Supplier
+                                    </label>
+                                    <select name="suppliers[0][supplier_id]"
+                                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
+                                        required>
+                                        <option value="">Pilih Supplier</option>
+                                        @foreach($suppliers as $supplier)
+                                        <option value="{{ $supplier->id }}">
                                             {{ $supplier->nama_supplier }}
                                         </option>
-                                    @endforeach
-                                </select>
-                                @error('suppliers.0.supplier_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Stock</label>
-                                <input
-                                    type="number"
-                                    name="suppliers[0][stock]"
-                                    value="{{ old('suppliers.0.stock', 0) }}"
-                                    class="w-full px-4 py-2 border rounded-lg @error('suppliers.0.stock') border-red-500 @enderror"
-                                    min="0"
-                                    required
-                                >
-                                @error('suppliers.0.stock')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-600 mb-1">Stock</label>
+                                    <input type="number" name="suppliers[0][stock]" value="0" min="0"
+                                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
+                                </div>
 
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Harga Beli</label>
-                                <input
-                                    type="number"
-                                    name="suppliers[0][harga_beli]"
-                                    value="{{ old('suppliers.0.harga_beli') }}"
-                                    class="w-full px-4 py-2 border rounded-lg @error('suppliers.0.harga_beli') border-red-500 @enderror"
-                                    step="0.01"
-                                    min="0"
-                                    required
-                                >
-                                @error('suppliers.0.harga_beli')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-600 mb-1">Harga Beli</label>
+                                    <input type="number" name="suppliers[0][harga_beli]"
+                                        class="harga-beli w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
+                                        onkeyup="calculateMargin(0)">
+                                </div>
 
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Harga Jual</label>
-                                <input
-                                    type="number"
-                                    name="suppliers[0][harga_jual]"
-                                    value="{{ old('suppliers.0.harga_jual') }}"
-                                    class="w-full px-4 py-2 border rounded-lg @error('suppliers.0.harga_jual') border-red-500 @enderror"
-                                    step="0.01"
-                                    min="0"
-                                    required
-                                >
-                                @error('suppliers.0.harga_jual')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-600 mb-1">Harga Jual</label>
+                                    <input type="number" name="suppliers[0][harga_jual]"
+                                        class="harga-jual w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
+                                        onkeyup="calculateMargin(0)">
+                                </div>
 
-                            <div class="md:col-span-2">
-                                <div class="bg-blue-50 border border-blue-200 rounded p-2 text-sm">
-                                    <span class="text-gray-600">Margin: </span>
-                                    <span class="font-semibold text-blue-700 margin-display">Rp 0</span>
+                                <div class="md:col-span-2">
+                                    <div class="bg-white border border-slate-200 rounded-xl p-3 text-sm">
+                                        <span class="text-slate-500">Margin:</span>
+                                        <span class="margin-display font-semibold ml-1">Rp 0</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="flex gap-2">
-                <button type="submit" class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                    Simpan Produk
-                </button>
-                <a href="{{ route('products.index') }}" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 text-center">
-                    Batal
-                </a>
-            </div>
-        </form>
+                {{-- ACTION --}}
+                <div class="flex gap-3">
+                    <button type="submit"
+                        class="flex-1 py-3 rounded-xl bg-slate-900 text-white text-sm hover:bg-slate-800">
+                        Simpan Produk
+                    </button>
+                    <a href="{{ route('products.index') }}"
+                        class="flex-1 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm text-center hover:bg-slate-200">
+                        Batal
+                    </a>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
 
 <script>
-let supplierIndex = 1;
+    let supplierIndex = 1; // row pertama sudah 0
 
-function addSupplier() {
-    const container = document.getElementById('suppliers-container');
-    const newRow = `
-        <div class="supplier-row border rounded-lg p-4 mb-4 bg-gray-50" data-index="${supplierIndex}">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="font-semibold text-gray-700">Supplier #${supplierIndex + 1}</h3>
-                <button
-                    type="button"
-                    onclick="removeSupplier(${supplierIndex})"
-                    class="text-red-600 hover:text-red-800 text-sm remove-btn"
-                >
-                    Hapus
-                </button>
+    function addSupplier() {
+        const container = document.getElementById('suppliers-container');
+
+        const html = `
+    <div class="supplier-row bg-slate-50 border border-slate-200 rounded-2xl p-5" data-index="${supplierIndex}">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-semibold text-slate-700">Supplier #${supplierIndex + 1}</h3>
+            <button type="button" onclick="removeSupplier(${supplierIndex})"
+                class="text-sm text-red-600 hover:text-red-700 remove-btn">
+                Hapus
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-slate-600 mb-1">Nama Supplier</label>
+                <select name="suppliers[${supplierIndex}][supplier_id]"
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
+                    required>
+                    <option value="">Pilih Supplier</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}">{{ $supplier->nama_supplier }}</option>
+                    @endforeach
+                </select>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="md:col-span-2">
-                    <label class="block text-gray-700 font-semibold mb-2">Nama Supplier</label>
-                    <select
-                        name="suppliers[${supplierIndex}][supplier_id]"
-                        class="w-full px-4 py-2 border rounded-lg"
-                        required
-                    >
-                        <option value="">Pilih Supplier</option>
-                        @foreach($suppliers as $supplier)
-                            <option value="{{ $supplier->id }}">{{ $supplier->nama_supplier }}</option>
-                        @endforeach
-                    </select>
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Stock</label>
+                <input type="number" name="suppliers[${supplierIndex}][stock]" value="0" min="0"
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
+            </div>
 
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Stock</label>
-                    <input
-                        type="number"
-                        name="suppliers[${supplierIndex}][stock]"
-                        value="0"
-                        class="w-full px-4 py-2 border rounded-lg"
-                        min="0"
-                        required
-                    >
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Harga Beli</label>
+                <input type="number" name="suppliers[${supplierIndex}][harga_beli]"
+                    class="harga-beli w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
+                    onkeyup="calculateMargin(${supplierIndex})">
+            </div>
 
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Harga Beli</label>
-                    <input
-                        type="number"
-                        name="suppliers[${supplierIndex}][harga_beli]"
-                        class="w-full px-4 py-2 border rounded-lg harga-beli"
-                        step="0.01"
-                        min="0"
-                        required
-                        onkeyup="calculateMargin(${supplierIndex})"
-                    >
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Harga Jual</label>
+                <input type="number" name="suppliers[${supplierIndex}][harga_jual]"
+                    class="harga-jual w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
+                    onkeyup="calculateMargin(${supplierIndex})">
+            </div>
 
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Harga Jual</label>
-                    <input
-                        type="number"
-                        name="suppliers[${supplierIndex}][harga_jual]"
-                        class="w-full px-4 py-2 border rounded-lg harga-jual"
-                        step="0.01"
-                        min="0"
-                        required
-                        onkeyup="calculateMargin(${supplierIndex})"
-                    >
-                </div>
-
-                <div class="md:col-span-2">
-                    <div class="bg-blue-50 border border-blue-200 rounded p-2 text-sm">
-                        <span class="text-gray-600">Margin: </span>
-                        <span class="font-semibold text-blue-700 margin-display">Rp 0</span>
-                    </div>
+            <div class="md:col-span-2">
+                <div class="bg-white border border-slate-200 rounded-xl p-3 text-sm">
+                    <span class="text-slate-500">Margin:</span>
+                    <span class="margin-display font-semibold ml-1">Rp 0</span>
                 </div>
             </div>
         </div>
+    </div>
     `;
 
-    container.insertAdjacentHTML('beforeend', newRow);
-    supplierIndex++;
-    updateRemoveButtons();
-}
-
-function removeSupplier(index) {
-    const row = document.querySelector(`[data-index="${index}"]`);
-    if (row) {
-        row.remove();
+        container.insertAdjacentHTML('beforeend', html);
+        supplierIndex++;
         updateRemoveButtons();
     }
-}
 
-function updateRemoveButtons() {
-    const rows = document.querySelectorAll('.supplier-row');
-    const removeButtons = document.querySelectorAll('.remove-btn');
-
-    if (rows.length <= 1) {
-        removeButtons.forEach(btn => btn.classList.add('hidden'));
-    } else {
-        removeButtons.forEach(btn => btn.classList.remove('hidden'));
+    function removeSupplier(i) {
+        const row = document.querySelector(`[data-index="${i}"]`);
+        if (row) row.remove();
+        updateRemoveButtons();
     }
-}
 
-function calculateMargin(index) {
-    const row = document.querySelector(`[data-index="${index}"]`);
-    const hargaBeli = parseFloat(row.querySelector('.harga-beli').value) || 0;
-    const hargaJual = parseFloat(row.querySelector('.harga-jual').value) || 0;
-    const margin = hargaJual - hargaBeli;
-    const marginDisplay = row.querySelector('.margin-display');
+    function updateRemoveButtons() {
+        const rows = document.querySelectorAll('.supplier-row');
+        const buttons = document.querySelectorAll('.remove-btn');
 
-    marginDisplay.textContent = 'Rp ' + margin.toLocaleString('id-ID');
-    marginDisplay.className = 'font-semibold ' + (margin >= 0 ? 'text-green-700' : 'text-red-700');
-}
+        if (rows.length <= 1) {
+            buttons.forEach(btn => btn.classList.add('hidden'));
+        } else {
+            buttons.forEach(btn => btn.classList.remove('hidden'));
+        }
+    }
 
-// Initialize margin calculation for first row
-document.addEventListener('DOMContentLoaded', function() {
-    const firstRow = document.querySelector('[data-index="0"]');
-    const hargaBeliInput = firstRow.querySelector('input[name="suppliers[0][harga_beli]"]');
-    const hargaJualInput = firstRow.querySelector('input[name="suppliers[0][harga_jual]"]');
+    function calculateMargin(i) {
+        const row = document.querySelector(`[data-index="${i}"]`);
+        const beli = parseFloat(row.querySelector('.harga-beli')?.value) || 0;
+        const jual = parseFloat(row.querySelector('.harga-jual')?.value) || 0;
+        const margin = jual - beli;
 
-    hargaBeliInput.addEventListener('keyup', () => calculateMargin(0));
-    hargaJualInput.addEventListener('keyup', () => calculateMargin(0));
-});
+        const display = row.querySelector('.margin-display');
+        display.textContent = 'Rp ' + margin.toLocaleString('id-ID');
+        display.className =
+            'margin-display font-semibold ml-1 ' +
+            (margin >= 0 ? 'text-green-600' : 'text-red-600');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateRemoveButtons();
+        calculateMargin(0);
+    });
 </script>
+
 @endsection
