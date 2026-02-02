@@ -4,254 +4,342 @@
 
 @section('content')
 <div class="px-5">
-
-    {{-- HEADER --}}
-    <div class="mb-6">
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
         <h1 class="text-2xl font-semibold tracking-tight text-slate-800">
-            Tambah Produk
+            Tambah Produk Baru
         </h1>
-        <p class="text-sm text-slate-500">
-            Kelola data produk, supplier, dan harga jual
-        </p>
     </div>
 
-    <div class="mb-8">
-        <div class="w-full max-w-4xl bg-white rounded-2xl shadow-sm p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-6">
+        <form action="{{ route('products.store') }}" method="POST">
+            @csrf
 
-            <form action="{{ route('products.store') }}" method="POST">
-                @csrf
-
-                {{-- INFORMASI PRODUK --}}
-                <div class="mb-8">
-                    <h2 class="text-lg font-semibold text-slate-800 mb-4">
-                        Informasi Produk
-                    </h2>
-
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-600 mb-1">
-                                Nama Produk
-                            </label>
-                            <input type="text" name="name" value="{{ old('name') }}"
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm
-                                focus:ring-2 focus:ring-slate-900/10"
-                                required>
-                            @error('name')
-                            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-slate-600 mb-1">
-                                Kategori
-                            </label>
-                            <select name="category"
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                                required>
-                                <option value="">Pilih Kategori</option>
-                                @foreach(['Processor','VGA Card','RAM','Storage','Motherboard','Power Supply','Casing'] as $cat)
-                                <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>
-                                    {{ $cat }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-slate-600 mb-1">
-                                Deskripsi
-                            </label>
-                            <textarea name="description" rows="3"
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">{{ old('description') }}</textarea>
-                        </div>
-                    </div>
+            {{-- Basic Information --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Nama Produk</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900">
+                    @error('name')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                {{-- SUPPLIER & HARGA --}}
-                <div class="mb-8">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-semibold text-slate-800">
-                            Supplier & Harga
-                        </h2>
-                        <button type="button" onclick="addSupplier()"
-                            class="px-4 py-2.5 bg-slate-900 text-white text-sm rounded-xl hover:bg-slate-800">
-                            + Tambah Supplier
-                        </button>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Kategori</label>
+                    <select name="category" id="category" required onchange="showSpecFields()"
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900">
+                        <option value="">Pilih Kategori</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>
+                                {{ $cat }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- Processor Specifications --}}
+            <div id="spec-processor" class="spec-section hidden mb-6 p-4 bg-slate-50 rounded-lg">
+                <h3 class="font-semibold text-slate-800 mb-4">Spesifikasi Processor</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Socket</label>
+                        <input type="text" name="socket" value="{{ old('socket') }}" placeholder="Contoh: LGA1700, AM5"
+                            class="w-full px-4 py-2 border rounded-lg">
                     </div>
-
-                    <div id="suppliers-container" class="space-y-4">
-                        <div class="supplier-row bg-slate-50 border border-slate-200 rounded-2xl p-5" data-index="0">
-                            <div class="flex justify-between items-center mb-4">
-                                <h3 class="font-semibold text-slate-700">Supplier #1</h3>
-                                <button type="button" onclick="removeSupplier(0)"
-                                    class="text-sm text-red-600 hover:text-red-700 remove-btn hidden">
-                                    Hapus
-                                </button>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="md:col-span-2">
-                                    <label class="block text-sm font-medium text-slate-600 mb-1">
-                                        Nama Supplier
-                                    </label>
-                                    <select name="suppliers[0][supplier_id]"
-                                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                                        required>
-                                        <option value="">Pilih Supplier</option>
-                                        @foreach($suppliers as $supplier)
-                                        <option value="{{ $supplier->id }}">
-                                            {{ $supplier->nama_supplier }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-600 mb-1">Stock</label>
-                                    <input type="number" name="suppliers[0][stock]" value="0" min="0"
-                                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-600 mb-1">Harga Beli</label>
-                                    <input type="number" name="suppliers[0][harga_beli]"
-                                        class="harga-beli w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                                        onkeyup="calculateMargin(0)">
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-600 mb-1">Harga Jual</label>
-                                    <input type="number" name="suppliers[0][harga_jual]"
-                                        class="harga-jual w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                                        onkeyup="calculateMargin(0)">
-                                </div>
-
-                                <div class="md:col-span-2">
-                                    <div class="bg-white border border-slate-200 rounded-xl p-3 text-sm">
-                                        <span class="text-slate-500">Margin:</span>
-                                        <span class="margin-display font-semibold ml-1">Rp 0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">TDP (Watt)</label>
+                        <input type="number" name="tdp" value="{{ old('tdp') }}" placeholder="Contoh: 125"
+                            class="w-full px-4 py-2 border rounded-lg">
                     </div>
                 </div>
+            </div>
 
-                {{-- ACTION --}}
-                <div class="flex gap-3">
-                    <button type="submit"
-                        class="flex-1 py-3 rounded-xl bg-slate-900 text-white text-sm hover:bg-slate-800">
-                        Simpan Produk
+            {{-- Motherboard Specifications --}}
+            <div id="spec-motherboard" class="spec-section hidden mb-6 p-4 bg-slate-50 rounded-lg">
+                <h3 class="font-semibold text-slate-800 mb-4">Spesifikasi Motherboard</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Socket</label>
+                        <input type="text" name="socket" value="{{ old('socket') }}" placeholder="Contoh: LGA1700, AM5"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Chipset</label>
+                        <input type="text" name="chipset" value="{{ old('chipset') }}" placeholder="Contoh: Z790, B650"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Tipe RAM</label>
+                        <select name="ram_type" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="">Pilih</option>
+                            <option value="DDR4" {{ old('ram_type') == 'DDR4' ? 'selected' : '' }}>DDR4</option>
+                            <option value="DDR5" {{ old('ram_type') == 'DDR5' ? 'selected' : '' }}>DDR5</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Jumlah Slot RAM</label>
+                        <input type="number" name="ram_slots" value="{{ old('ram_slots') }}" placeholder="Contoh: 4"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Max RAM Speed (MHz)</label>
+                        <input type="number" name="max_ram_speed" value="{{ old('max_ram_speed') }}" placeholder="Contoh: 5600"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Form Factor</label>
+                        <select name="form_factor" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="">Pilih</option>
+                            <option value="ATX" {{ old('form_factor') == 'ATX' ? 'selected' : '' }}>ATX</option>
+                            <option value="Micro-ATX" {{ old('form_factor') == 'Micro-ATX' ? 'selected' : '' }}>Micro-ATX</option>
+                            <option value="Mini-ITX" {{ old('form_factor') == 'Mini-ITX' ? 'selected' : '' }}>Mini-ITX</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            {{-- RAM Specifications --}}
+            <div id="spec-ram" class="spec-section hidden mb-6 p-4 bg-slate-50 rounded-lg">
+                <h3 class="font-semibold text-slate-800 mb-4">Spesifikasi RAM</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Generasi</label>
+                        <select name="ram_generation" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="">Pilih</option>
+                            <option value="DDR4" {{ old('ram_generation') == 'DDR4' ? 'selected' : '' }}>DDR4</option>
+                            <option value="DDR5" {{ old('ram_generation') == 'DDR5' ? 'selected' : '' }}>DDR5</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Speed (MHz)</label>
+                        <input type="number" name="ram_speed" value="{{ old('ram_speed') }}" placeholder="Contoh: 3200"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Kapasitas (GB)</label>
+                        <input type="number" name="ram_capacity" value="{{ old('ram_capacity') }}" placeholder="Contoh: 16"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            {{-- VGA Specifications --}}
+            <div id="spec-vga-card" class="spec-section hidden mb-6 p-4 bg-slate-50 rounded-lg">
+                <h3 class="font-semibold text-slate-800 mb-4">Spesifikasi VGA Card</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Konsumsi Daya (Watt)</label>
+                        <input type="number" name="vga_power_consumption" value="{{ old('vga_power_consumption') }}" placeholder="Contoh: 220"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Power Connector</label>
+                        <input type="text" name="vga_power_connector" value="{{ old('vga_power_connector') }}" placeholder="Contoh: 8-pin x2"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            {{-- Storage Specifications --}}
+            <div id="spec-storage" class="spec-section hidden mb-6 p-4 bg-slate-50 rounded-lg">
+                <h3 class="font-semibold text-slate-800 mb-4">Spesifikasi Storage</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Tipe</label>
+                        <select name="storage_type" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="">Pilih</option>
+                            <option value="NVMe" {{ old('storage_type') == 'NVMe' ? 'selected' : '' }}>NVMe</option>
+                            <option value="SATA SSD" {{ old('storage_type') == 'SATA SSD' ? 'selected' : '' }}>SATA SSD</option>
+                            <option value="HDD" {{ old('storage_type') == 'HDD' ? 'selected' : '' }}>HDD</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Interface</label>
+                        <select name="storage_interface" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="">Pilih</option>
+                            <option value="M.2" {{ old('storage_interface') == 'M.2' ? 'selected' : '' }}>M.2</option>
+                            <option value='2.5"' {{ old('storage_interface') == '2.5"' ? 'selected' : '' }}>2.5"</option>
+                            <option value='3.5"' {{ old('storage_interface') == '3.5"' ? 'selected' : '' }}>3.5"</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Kapasitas (GB)</label>
+                        <input type="number" name="storage_capacity" value="{{ old('storage_capacity') }}" placeholder="Contoh: 1000"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            {{-- Power Supply Specifications --}}
+            <div id="spec-power-supply" class="spec-section hidden mb-6 p-4 bg-slate-50 rounded-lg">
+                <h3 class="font-semibold text-slate-800 mb-4">Spesifikasi Power Supply</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Wattage</label>
+                        <input type="number" name="psu_wattage" value="{{ old('psu_wattage') }}" placeholder="Contoh: 850"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Efficiency Rating</label>
+                        <select name="psu_efficiency" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="">Pilih</option>
+                            <option value="80+ Bronze">80+ Bronze</option>
+                            <option value="80+ Silver">80+ Silver</option>
+                            <option value="80+ Gold">80+ Gold</option>
+                            <option value="80+ Platinum">80+ Platinum</option>
+                            <option value="80+ Titanium">80+ Titanium</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Casing Specifications --}}
+            <div id="spec-casing" class="spec-section hidden mb-6 p-4 bg-slate-50 rounded-lg">
+                <h3 class="font-semibold text-slate-800 mb-4">Spesifikasi Casing</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Form Factor</label>
+                        <select name="form_factor" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="">Pilih</option>
+                            <option value="ATX">ATX</option>
+                            <option value="Micro-ATX">Micro-ATX</option>
+                            <option value="Mini-ITX">Mini-ITX</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Max GPU Length (mm)</label>
+                        <input type="number" name="max_gpu_length" value="{{ old('max_gpu_length') }}" placeholder="Contoh: 380"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Max CPU Cooler Height (mm)</label>
+                        <input type="number" name="max_cpu_cooler_height" value="{{ old('max_cpu_cooler_height') }}" placeholder="Contoh: 170"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            {{-- Suppliers Section --}}
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-slate-800">Supplier & Harga</h3>
+                    <button type="button" onclick="addSupplier()"
+                        class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm hover:bg-slate-800">
+                        + Tambah Supplier
                     </button>
-                    <a href="{{ route('products.index') }}"
-                        class="flex-1 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm text-center hover:bg-slate-200">
-                        Batal
-                    </a>
                 </div>
 
-            </form>
-        </div>
+                <div id="suppliers-container">
+                    {{-- Supplier items will be added here --}}
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button type="submit"
+                    class="px-6 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-800">
+                    Simpan Produk
+                </button>
+                <a href="{{ route('products.index') }}"
+                    class="px-6 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200">
+                    Batal
+                </a>
+            </div>
+        </form>
     </div>
 </div>
 
+@endsection
+
+@push('scripts')
 <script>
-    let supplierIndex = 1; // row pertama sudah 0
+let supplierCount = 0;
 
-    function addSupplier() {
-        const container = document.getElementById('suppliers-container');
+function showSpecFields() {
+    const category = document.getElementById('category').value;
 
-        const html = `
-    <div class="supplier-row bg-slate-50 border border-slate-200 rounded-2xl p-5" data-index="${supplierIndex}">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="font-semibold text-slate-700">Supplier #${supplierIndex + 1}</h3>
-            <button type="button" onclick="removeSupplier(${supplierIndex})"
-                class="text-sm text-red-600 hover:text-red-700 remove-btn">
-                Hapus
-            </button>
-        </div>
+    // Hide all spec sections
+    document.querySelectorAll('.spec-section').forEach(section => {
+        section.classList.add('hidden');
+    });
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-slate-600 mb-1">Nama Supplier</label>
-                <select name="suppliers[${supplierIndex}][supplier_id]"
-                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                    required>
-                    <option value="">Pilih Supplier</option>
-                    @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}">{{ $supplier->nama_supplier }}</option>
-                    @endforeach
-                </select>
+    // Show relevant spec section
+    if (category) {
+        const specId = 'spec-' + category.toLowerCase().replace(' ', '-');
+        const specSection = document.getElementById(specId);
+        if (specSection) {
+            specSection.classList.remove('hidden');
+        }
+    }
+}
+
+function addSupplier() {
+    supplierCount++;
+    const container = document.getElementById('suppliers-container');
+
+    const html = `
+        <div class="supplier-item border rounded-lg p-4 mb-4" id="supplier-${supplierCount}">
+            <div class="flex justify-between items-center mb-4">
+                <h4 class="font-medium text-slate-700">Supplier #${supplierCount}</h4>
+                <button type="button" onclick="removeSupplier(${supplierCount})"
+                    class="text-red-500 hover:text-red-700 text-sm">
+                    Hapus
+                </button>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-slate-600 mb-1">Stock</label>
-                <input type="number" name="suppliers[${supplierIndex}][stock]" value="0" min="0"
-                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Supplier</label>
+                    <select name="suppliers[${supplierCount}][supplier_id]" required
+                        class="w-full px-4 py-2 border rounded-lg">
+                        <option value="">Pilih Supplier</option>
+                        @foreach($suppliers as $supplier)
+                            <option value="{{ $supplier->id }}">{{ $supplier->nama_supplier }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div>
-                <label class="block text-sm font-medium text-slate-600 mb-1">Harga Beli</label>
-                <input type="number" name="suppliers[${supplierIndex}][harga_beli]"
-                    class="harga-beli w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                    onkeyup="calculateMargin(${supplierIndex})">
-            </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Stock</label>
+                    <input type="number" name="suppliers[${supplierCount}][stock]" required
+                        class="w-full px-4 py-2 border rounded-lg" min="0">
+                </div>
 
-            <div>
-                <label class="block text-sm font-medium text-slate-600 mb-1">Harga Jual</label>
-                <input type="number" name="suppliers[${supplierIndex}][harga_jual]"
-                    class="harga-jual w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                    onkeyup="calculateMargin(${supplierIndex})">
-            </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Harga Beli</label>
+                    <input type="number" name="suppliers[${supplierCount}][harga_beli]" required
+                        class="w-full px-4 py-2 border rounded-lg" min="0" step="0.01">
+                </div>
 
-            <div class="md:col-span-2">
-                <div class="bg-white border border-slate-200 rounded-xl p-3 text-sm">
-                    <span class="text-slate-500">Margin:</span>
-                    <span class="margin-display font-semibold ml-1">Rp 0</span>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Harga Jual</label>
+                    <input type="number" name="suppliers[${supplierCount}][harga_jual]" required
+                        class="w-full px-4 py-2 border rounded-lg" min="0" step="0.01">
                 </div>
             </div>
         </div>
-    </div>
     `;
 
-        container.insertAdjacentHTML('beforeend', html);
-        supplierIndex++;
-        updateRemoveButtons();
+    container.insertAdjacentHTML('beforeend', html);
+}
+
+function removeSupplier(id) {
+    document.getElementById(`supplier-${id}`).remove();
+}
+
+// Add initial supplier on page load
+document.addEventListener('DOMContentLoaded', function() {
+    addSupplier();
+
+    // Show spec fields if category is already selected (from old input)
+    const category = document.getElementById('category').value;
+    if (category) {
+        showSpecFields();
     }
-
-    function removeSupplier(i) {
-        const row = document.querySelector(`[data-index="${i}"]`);
-        if (row) row.remove();
-        updateRemoveButtons();
-    }
-
-    function updateRemoveButtons() {
-        const rows = document.querySelectorAll('.supplier-row');
-        const buttons = document.querySelectorAll('.remove-btn');
-
-        if (rows.length <= 1) {
-            buttons.forEach(btn => btn.classList.add('hidden'));
-        } else {
-            buttons.forEach(btn => btn.classList.remove('hidden'));
-        }
-    }
-
-    function calculateMargin(i) {
-        const row = document.querySelector(`[data-index="${i}"]`);
-        const beli = parseFloat(row.querySelector('.harga-beli')?.value) || 0;
-        const jual = parseFloat(row.querySelector('.harga-jual')?.value) || 0;
-        const margin = jual - beli;
-
-        const display = row.querySelector('.margin-display');
-        display.textContent = 'Rp ' + margin.toLocaleString('id-ID');
-        display.className =
-            'margin-display font-semibold ml-1 ' +
-            (margin >= 0 ? 'text-green-600' : 'text-red-600');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        updateRemoveButtons();
-        calculateMargin(0);
-    });
+});
 </script>
-
-@endsection
+@endpush

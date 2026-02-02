@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PCBuildController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -7,7 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\PcBuilderController;
+// use App\Http\Controllers\PcBuilderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SupplierController;
 
@@ -130,7 +131,17 @@ Route::middleware('auth')->group(function () {
     | Tools
     |--------------------------------------------------------------------------
     */
-    Route::get('/pc-builder', [PcBuilderController::class, 'index'])->name('pc-builder');
+    // Route::get('/pc-builder', [PcBuilderController::class, 'index'])->name('pc-builder');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Route::prefix('pc-build')->name('pc-build.')->group(function () {
+        Route::get('/', [PCBuildController::class, 'index'])->name('index');
+        Route::post('/compatible-products', [PCBuildController::class, 'getCompatibleProducts'])->name('compatible');
+        Route::post('/calculate-summary', [PCBuildController::class, 'calculateSummary'])->name('calculate');
+        Route::post('/save', [PCBuildController::class, 'saveBuild'])->name('save');
+        Route::get('/saved', [PCBuildController::class, 'savedBuilds'])->name('saved');
+    });
+
 });
