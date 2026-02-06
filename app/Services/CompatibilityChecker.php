@@ -64,8 +64,6 @@ class CompatibilityChecker
 
         // 5. Check VGA Length (jika ada spesifikasi)
         if ($vga && $casing && $casing->max_gpu_length) {
-            // Asumsi panjang VGA disimpan di description atau field khusus
-            // Untuk implementasi lengkap, tambahkan field vga_length di migration
         }
 
         return [
@@ -107,7 +105,6 @@ class CompatibilityChecker
         $query = Product::where('category', $targetCategory);
 
         if ($targetCategory === 'Motherboard') {
-            // Motherboard harus punya socket yang sama
             $query->where('socket', $processor->socket);
         }
 
@@ -181,8 +178,6 @@ class CompatibilityChecker
      */
     private function getMotherboardFormFactor($chipset)
     {
-        // Ini bisa diperbaiki dengan menambah field form_factor di motherboard
-        // Untuk sementara return null atau implement logic berdasarkan chipset
         return null;
     }
 
